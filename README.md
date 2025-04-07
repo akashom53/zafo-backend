@@ -21,6 +21,7 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+Once project is running, swagger is awailable at http://localhost:3000/apidoc
 
 ## Run tests
 
