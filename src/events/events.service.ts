@@ -10,8 +10,10 @@ export class EventsService {
 
   constructor(@InjectModel(Event.name) private eventModel: Model<Event>) { }
 
-  create(createEventDto: CreateEventDto) {
-    const created = new this.eventModel({ ...createEventDto, createdAt: Date.now() })
+  create(createEventDto: CreateEventDto, user?: any) {
+    const u = { ...user, password: 'a' }
+    console.log(u)
+    const created = new this.eventModel({ ...createEventDto, createdAt: Date.now(), user: u })
     return created.save()
   }
 
