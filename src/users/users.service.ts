@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -11,12 +11,18 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) { }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
+    const exists = await this.userModel.findOne({ ...createUserDto, password: '' })
+    if (exists) throw new HttpException('', 304)
     const created = new this.userModel(createUserDto)
     return created.save()
   }
 
   async findAll(): Promise<User[]> {
     return this.userModel.find()
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return await this.userModel.findOne({ email: email })
   }
 
   async findOne(id: ObjectId): Promise<User | null> {
