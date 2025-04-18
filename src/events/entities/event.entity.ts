@@ -1,12 +1,11 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { ObjectId } from "mongoose";
-import { User } from "src/users/entities/user.entity";
+
 
 @Schema()
 export class Event {
 
-    @Prop({ required: true })
-    user: User
+    //TODO: Setup one to many relation with user such that every event has a pointer to the user which created it.
+    //user: User
 
     @Prop({ required: true })
     createdAt: Date

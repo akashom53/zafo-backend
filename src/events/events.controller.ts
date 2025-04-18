@@ -12,7 +12,7 @@ export class EventsController {
   @Post()
   @UseGuards(JwtGuard)
   create(@Req() req: Request, @Body() createEventDto: CreateEventDto) {
-    return this.eventsService.create(createEventDto, req.user);
+    return this.eventsService.create(createEventDto);
   }
 
   @Get()
