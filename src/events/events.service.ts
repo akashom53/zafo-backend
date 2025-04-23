@@ -3,20 +3,21 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Event } from './entities/event.entity';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class EventsService {
 
   constructor(@InjectModel(Event.name) private eventModel: Model<Event>) { }
 
-  create(createEventDto: CreateEventDto) {
-    const created = new this.eventModel({ ...createEventDto, createdAt: Date.now() })
+  create(createEventDto: CreateEventDto, user: User) {
+    const created = new this.eventModel({ ...createEventDto, createdAt: Date.now(), user })
     return created.save()
   }
 
-  findAll() {
-    return this.eventModel.find()
+  findAll(user: User) {
+    return this.eventModel.find({ user })
   }
 
   findOne(id: number) {
