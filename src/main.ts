@@ -8,7 +8,7 @@ async function bootstrap() {
 
   // Enable CORS with custom options
   app.enableCors({
-    origin: ['*'],
+    origin: ['https://akkipedia.com'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials: true,
   });
