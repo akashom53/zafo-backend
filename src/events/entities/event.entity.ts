@@ -9,7 +9,7 @@ export class Event {
     //TODO: Setup one to many relation with user such that every event has a pointer to the user which created it.
     //user: User
 
-    @Prop({ type: Types.ObjectId, ref: User.name })
+    @Prop({ type: Types.ObjectId, ref: User.name, required: true })
     user: User
 
     @Prop({ required: true })

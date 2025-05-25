@@ -3,10 +3,25 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
 
+
+interface TimeSeriesDataPoint {
+    week_start: string;
+    search_results_visits: number;
+}
+
+interface GraphMetadata {
+    is_graph: string;
+    graph_type: string;
+    'x-axis': string;
+    'y-axis': string;
+}
 export interface ChatResponse {
-    response_string: string;
-    data_type: 'table' | 'bar_chart' | 'line_chart';
-    data: Record<string, any>;
+    message?: string;
+    timestamp?: string;
+    result?: TimeSeriesDataPoint[];
+    is_graph?: GraphMetadata;
+    result_summary?: string;
+    sql_query?: string;
 }
 
 @Injectable()
@@ -26,9 +41,9 @@ export class ChatService {
         try {
             // Make the POST request to the external API
             const response = await firstValueFrom(
-                this.httpService.post('https://zafonlpsql-production.up.railway.app/ask', {
+                this.httpService.post('https://zafocrecode-production.up.railway.app/ask', {
                     question: sanitizedInput,
-                    table_name: 'logs'
+                    table_name: 'real_estate'
                 })
             );
 
