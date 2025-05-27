@@ -41,7 +41,7 @@ export class ChatService {
         try {
             // Make the POST request to the external API
             const response = await firstValueFrom(
-                this.httpService.post('zafocrecode-production-f042.up.railway.app/ask', {
+                this.httpService.post('https://zafocrecode-production-f042.up.railway.app/ask', {
                     question: sanitizedInput,
                     table_name: 'real_estate'
                 })
