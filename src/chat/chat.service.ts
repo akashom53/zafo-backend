@@ -28,7 +28,7 @@ export interface ChatResponse {
 export class ChatService {
     constructor(private readonly httpService: HttpService) { }
 
-    async send(input: string): Promise<ChatResponse> {
+    async send(input: string, model: 'focus' | 'fusion'): Promise<ChatResponse> {
         // Check for null or empty input
         if (!input || input.trim() === '') {
             throw new BadRequestException('Input cannot be null or empty');
@@ -43,7 +43,8 @@ export class ChatService {
             const response = await firstValueFrom(
                 this.httpService.post('https://zafocrecode-production-f042.up.railway.app/ask', {
                     question: sanitizedInput,
-                    table_name: 'real_estate'
+                    table_name: 'real_estate',
+                    web_search: model === 'focus' ? 0 : 1
                 })
             );
 
