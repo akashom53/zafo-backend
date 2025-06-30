@@ -43,7 +43,7 @@ export class ChatService {
         this.httpService
           .post('https://zafocremultitable-production.up.railway.app/ask', {
             question: sanitizedInput,
-            table_name: [
+            table_names: [
               'rera_flat_table',
               'resi_flat_records',
               'screener_flat_table_brio',
