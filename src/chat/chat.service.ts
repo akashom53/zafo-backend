@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
+import { catchError, firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
 
 interface TimeSeriesDataPoint {
@@ -40,9 +40,8 @@ export class ChatService {
     try {
       // Make the POST request to the external API
       const response = await firstValueFrom(
-        this.httpService.post(
-          'https://zafocremultitable-production.up.railway.app/ask',
-          {
+        this.httpService
+          .post('https://zafocremultitable-production.up.railway.app/ask', {
             question: sanitizedInput,
             table_name: [
               'rera_flat_table',
@@ -51,8 +50,15 @@ export class ChatService {
               'supply_flat_table_brio',
             ],
             web_search: model === 'focus' ? 0 : 1,
-          },
-        ),
+          })
+          .pipe(
+            catchError((error) => {
+              console.error('Error calling external API:', error);
+              throw new BadRequestException(
+                'Failed to get response from the NLP service',
+              );
+            }),
+          ),
       );
 
       // Return the response data
